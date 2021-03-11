@@ -1,6 +1,6 @@
 # SafeCrossing API
 
-📜 API gerenciar informações de semáforos a fim de disponibilizar meios de auxílio a travessia mais segura por portadores de deficiência visual.
+📜 API gerenciar informações de semáforos a fim de disponibilizar meios de auxílio a travessia mais segura por portadores de deficiência visual
 
 <p align="center">
 <img src="https://www.flaticon.com/svg/vstatic/svg/4312/4312140.svg?token=exp=1615479679~hmac=fb2e2eeeebb0a34d8fc9a91d17b8d25a" alt="Logo" border="0" width="10%">
