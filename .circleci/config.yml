@@ -33,7 +33,7 @@ jobs:
           command: npm test
       - codecov/upload:
           file: './coverage/clover.xml'
-          token: 03d08780-32d5-4fdc-b3dd-a6fd07e5fc24
+          token: $CODECOV_TOKEN
 
 workflows:
   # Below is the definition of your workflow.
