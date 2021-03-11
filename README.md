@@ -19,9 +19,9 @@
     <img alt="Follow luiznds62" src="https://img.shields.io/static/v1?label=Follow&message=luiznds62" />
    </a>
 
-  <a href="https://codecov.io/gh/luiznds62/safecrossing-api">
-    <img src="https://codecov.io/gh/luiznds62/safecrossing-api/branch/main/graph/badge.svg?token=AWHKI78UK2"/>
-  </a>
+   <a href="https://codecov.io/gh/luiznds62/safecrossing-api">
+    <img src="https://codecov.io/gh/luiznds62/safecrossing-api/branch/master/graph/badge.svg?token=YXFIXVHJ9M"/>
+   </a>
 </p>
 
 💡 Projeto criado para disciplina de TCC III do curso Ciência da Computação da Universidade do Extremo Sul Catarinense (UNESC), orientado pelo professor Luciano Antunes (http://lattes.cnpq.br/3830688071879707). Seu objetivo é disponibilizar dados provinientes de um protótipo de dispositivo IOT que realiza leitura das cores de semáforos, onde por meio destes serão formatados e consumidos por um aplicativo para dispositivos móveis que irá interagir com usuário a fim de guia-lo na travessia mais segura.
