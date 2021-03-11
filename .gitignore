@@ -4,3 +4,4 @@ node_modules
 users.db
 dist
 coverage
+.env
