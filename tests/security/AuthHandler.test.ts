@@ -1,12 +1,14 @@
-import 'dotenv/config';
 import { User } from '../../src/domain/user/User';
 import { UserService } from '../../src/domain/user/UserService';
 import { AuthHandler } from '../../src/security/AuthHandler';
 import { USER_CONSTS } from '../domain/UserTestUtils';
+import environment from '../../src/common/Environments';
 
 jest.mock('../../src/domain/user/UserService');
 
 describe('AuthHandler', () => {
+  environment.SECURITY.ISS = 'safecrossing-api';
+  environment.SECURITY.API_SECRET = 'f1fdeaf03bbc0f0134bfb24db9cd9989';
   UserService.prototype.findByEmail = jest.fn().mockReturnValue(new User(USER_CONSTS.userProps));
 
   const req = {
