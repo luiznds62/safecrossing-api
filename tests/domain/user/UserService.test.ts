@@ -1,10 +1,10 @@
-import { BasicPage } from '../../src/core/BasicPage';
-import { User } from '../../src/domain/user/User';
-import { UserRepository } from '../../src/domain/user/UserRepository';
-import { UserService } from '../../src/domain/user/UserService';
-import { USER_CONSTS } from './UserTestUtils';
+import { BasicPage } from '../../../src/core/BasicPage';
+import { User } from '../../../src/domain/user/User';
+import { UserRepository } from '../../../src/domain/user/UserRepository';
+import { UserService } from '../../../src/domain/user/UserService';
+import { USER_CONSTS } from './../UserTestUtils';
 
-jest.mock('../../src/domain/user/UserRepository');
+jest.mock('../../../src/domain/user/UserRepository');
 
 describe('UserService', () => {
   const usersPage = new BasicPage()
