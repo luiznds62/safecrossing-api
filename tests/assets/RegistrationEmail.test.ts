@@ -1,6 +1,6 @@
 import { RegistrationMail } from '../../src/assets/RegistrationMail';
 import { User } from '../../src/domain/user/User';
-import { USER_CONSTS } from '../domain/UserTestUtils';
+import { USER_CONSTS } from '../domain/user/UserTestUtils';
 
 describe('RegistrationMail', () => {
   test('Should construct RegistrationMail', () => {

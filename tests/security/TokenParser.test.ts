@@ -1,7 +1,7 @@
 import { User } from '../../src/domain/user/User';
 import { UserService } from '../../src/domain/user/UserService';
 import { TokenParser } from '../../src/security/TokenParser';
-import { USER_CONSTS } from '../domain/UserTestUtils';
+import { USER_CONSTS } from '../domain/user/UserTestUtils';
 
 jest.mock('../../src/domain/user/UserService');
 jest.mock('jsonwebtoken');

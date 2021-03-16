@@ -1,36 +1,29 @@
-import { TRAFFIC_LIGHT_STATUS } from '../../../src/common/Constants';
 import { Result } from '../../../src/common/Result';
-import { TrafficLight } from '../../../src/domain/traffic-light/TrafficLIght';
-
-const CONSTS = {
-  _id: 1,
-  name: 'tester',
-  coordinates: '-28.706328, -49.294791',
-  lastStatus: TRAFFIC_LIGHT_STATUS.SAFE
-};
+import { TrafficLight } from '../../../src/domain/traffic-light/TrafficLight';
+import { TRAFFIC_LIGHT_CONSTS } from './TrafficLightTestUtils';
 
 describe('TrafficLight', () => {
   test('Should create TrafficLight', async () => {
     const result: Result<TrafficLight> = await TrafficLight.create({
-      _id: CONSTS._id,
-      name: CONSTS.name,
-      coordinates: CONSTS.coordinates,
-      lastStatus: CONSTS.lastStatus
+      _id: TRAFFIC_LIGHT_CONSTS.trafficLightProps._id,
+      name: TRAFFIC_LIGHT_CONSTS.trafficLightProps.name,
+      coordinates: TRAFFIC_LIGHT_CONSTS.trafficLightProps.coordinates,
+      lastStatus: TRAFFIC_LIGHT_CONSTS.trafficLightProps.lastStatus
     });
 
     expect(result.getValue()).toBeDefined();
-    expect(result.getValue().getId()).toBe(CONSTS._id);
-    expect(result.getValue().getCoordinates()).toBe(CONSTS.coordinates);
-    expect(result.getValue().getLastStatus()).toBe(CONSTS.lastStatus);
+    expect(result.getValue().getId()).toBe(TRAFFIC_LIGHT_CONSTS.trafficLightProps._id);
+    expect(result.getValue().getCoordinates()).toBe(TRAFFIC_LIGHT_CONSTS.trafficLightProps.coordinates);
+    expect(result.getValue().getLastStatus()).toBe(TRAFFIC_LIGHT_CONSTS.trafficLightProps.lastStatus);
   });
 
   test('Should not create TrafficLight without name', async () => {
     try {
       await TrafficLight.create({
-        _id: CONSTS._id,
+        _id: TRAFFIC_LIGHT_CONSTS.trafficLightProps._id,
         name: undefined,
-        coordinates: CONSTS.coordinates,
-        lastStatus: CONSTS.lastStatus
+        coordinates: TRAFFIC_LIGHT_CONSTS.trafficLightProps.coordinates,
+        lastStatus: TRAFFIC_LIGHT_CONSTS.trafficLightProps.lastStatus
       });
     } catch (error) {
       expect(error).toBeDefined();
@@ -41,10 +34,10 @@ describe('TrafficLight', () => {
   test('Should not create TrafficLight without coordinates', async () => {
     try {
       await TrafficLight.create({
-        _id: CONSTS._id,
-        name: CONSTS.name,
+        _id: TRAFFIC_LIGHT_CONSTS.trafficLightProps._id,
+        name: TRAFFIC_LIGHT_CONSTS.trafficLightProps.name,
         coordinates: undefined,
-        lastStatus: CONSTS.lastStatus
+        lastStatus: TRAFFIC_LIGHT_CONSTS.trafficLightProps.lastStatus
       });
     } catch (error) {
       expect(error).toBeDefined();
