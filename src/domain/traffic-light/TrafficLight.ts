@@ -9,7 +9,7 @@ interface TrafficLightProps extends IEntity {
 }
 
 class TrafficLight extends BasicEntity {
-  static path: Object = { filename: 'users.db' };
+  static path: Object = { filename: 'traffic-lights.db' };
 
   @IsDefined()
   @Length(5, 30)
