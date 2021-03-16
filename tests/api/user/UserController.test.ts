@@ -2,7 +2,7 @@ import { UserController } from '../../../src/api/router';
 import { JOBS } from '../../../src/common/Constants';
 import { User } from '../../../src/domain/user/User';
 import { UserService } from '../../../src/domain/user/UserService';
-import { USER_CONSTS } from '../../domain/UserTestUtils';
+import { USER_CONSTS } from '../../domain/user/UserTestUtils';
 import QueueManager from '../../../src/queue/QueueManager';
 
 jest.mock('../../../src/domain/user/UserService');

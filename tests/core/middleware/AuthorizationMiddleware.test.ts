@@ -1,6 +1,6 @@
 import { authorize } from '../../../src/core/middleware/AuthorizationMiddleware';
 import { IAuthenticatedRequest } from '../../../src/security/TokenParser';
-import { USER_CONSTS } from '../../domain/UserTestUtils';
+import { USER_CONSTS } from '../../domain/user/UserTestUtils';
 
 describe('AuthorizationMiddleware', () => {
   const req = {

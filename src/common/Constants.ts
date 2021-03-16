@@ -13,3 +13,8 @@ export enum BCRYPT {
 export enum JOBS {
   REGISTRATION = 'RegistrationJob'
 }
+
+export enum TRAFFIC_LIGHT_STATUS {
+  SAFE = 'Safe',
+  WAIT = 'Wait'
+}

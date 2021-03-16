@@ -2,7 +2,7 @@ import 'dotenv/config';
 import QueueManager from '../../src/queue/QueueManager';
 import Queue from 'bull';
 import { JOBS } from '../../src/common/Constants';
-import { USER_CONSTS } from '../domain/UserTestUtils';
+import { USER_CONSTS } from '../domain/user/UserTestUtils';
 
 jest.mock('bull');
 

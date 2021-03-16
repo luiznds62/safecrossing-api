@@ -1,5 +1,5 @@
-import { Result } from '../../src/common/Result';
-import { User } from '../../src/domain/user/User';
+import { Result } from '../../../src/common/Result';
+import { User } from '../../../src/domain/user/User';
 
 const CONSTS = {
   _id: 1,

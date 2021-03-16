@@ -1,6 +1,6 @@
 import { UserMap } from '../../../src/api/user/UserDto';
 import { User } from '../../../src/domain/user/User';
-import { USER_CONSTS } from '../../domain/UserTestUtils';
+import { USER_CONSTS } from '../../domain/user/UserTestUtils';
 
 describe('UserDto', () => {
   test('Should do to domain', async () => {

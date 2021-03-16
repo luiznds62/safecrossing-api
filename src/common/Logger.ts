@@ -1,3 +1,5 @@
+import environments from '../common/Environments';
+
 const bunyan = require("bunyan"),
   bformat = require("bunyan-format"),
   formatOut = bformat({ outputMode: "short" });
@@ -5,7 +7,7 @@ const bunyan = require("bunyan"),
 const logger = bunyan.createLogger({
   name: "app",
   stream: formatOut,
-  level: "debug",
+  level: environments.SERVER.LOG_LEVEL || "debug",
 });
 
 export { logger };

@@ -1,6 +1,7 @@
 export default {
     SERVER: {
-        PORT: process.env.SERVER_PORT
+        PORT: process.env.SERVER_PORT,
+        LOG_LEVEL: process.env.SERVER_LOG_LEVEL
     },
     SECURITY: {
         ISS: process.env.SECURITY_ISS,
