@@ -7,6 +7,7 @@ import { errorHandler } from '../common/ErrorHandler';
 import { TokenParser } from '../security/TokenParser';
 import * as bodyParser from 'body-parser';
 import * as routes from '../api/router';
+
 export default class Server extends EventEmitter {
   application: express.Application;
 

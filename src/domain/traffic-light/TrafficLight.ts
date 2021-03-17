@@ -1,6 +1,7 @@
 import { IsDefined, Length } from 'class-validator';
 import { Result } from '../../common/Result';
 import { BasicEntity, IEntity } from '../../core/BasicEntity';
+import { Column, Entity } from 'typeorm';
 
 interface TrafficLightProps extends IEntity {
   name: string;
@@ -8,16 +9,19 @@ interface TrafficLightProps extends IEntity {
   lastStatus: string;
 }
 
+@Entity()
 class TrafficLight extends BasicEntity {
-  static path: Object = { filename: 'traffic-lights.db' };
 
+  @Column({ length: 30 })
   @IsDefined()
   @Length(5, 30)
   private name: string;
 
+  @Column({ unique: true })
   @IsDefined()
   private coordinates: string;
 
+  @Column()
   @IsDefined()
   private lastStatus: string;
 
@@ -64,7 +68,8 @@ class TrafficLight extends BasicEntity {
     return this.lastStatus;
   };
 
-  beforePersist() {}
+  beforePersist() {
+  }
 
   public static async create(props: TrafficLightProps) {
     const trafficLight = new TrafficLight({ ...props });

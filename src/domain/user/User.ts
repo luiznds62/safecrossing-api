@@ -5,7 +5,7 @@ import { Result } from '../../common/Result';
 import { IsDefined, IsEmail, IsString, Length } from 'class-validator';
 import { BCRYPT } from '../../common/Constants';
 import { logger } from '../../common/Logger';
-import { IsUserAlreadyExist } from '../../core/validators/IsUserAlreadyExistConstraint';
+import { Column, Entity } from 'typeorm';
 
 interface UserProps extends IEntity {
   name: string;
@@ -13,20 +13,20 @@ interface UserProps extends IEntity {
   password: string;
 }
 
+@Entity()
 class User extends BasicEntity {
-  static path: Object = { filename: 'users.db' };
 
+  @Column()
   @IsDefined()
   @Length(5, 30)
   private name: string;
 
+  @Column({unique: true})
   @IsDefined()
   @IsEmail()
-  @IsUserAlreadyExist({
-    message: 'E-mail $value is already in use'
-  })
   private email: string;
 
+  @Column()
   @IsDefined()
   @IsString()
   @Length(6, 20)

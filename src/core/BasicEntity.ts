@@ -1,6 +1,7 @@
-import { validate } from "class-validator";
-import { ValidationError } from "./exception/ValidationError";
-import { HTTP_STATUS } from "../common/Constants";
+import { validate } from 'class-validator';
+import { ValidationError } from './exception/ValidationError';
+import { HTTP_STATUS } from '../common/Constants';
+import { PrimaryGeneratedColumn } from 'typeorm';
 
 export interface IEntity {
     _id: any;
@@ -8,7 +9,9 @@ export interface IEntity {
 }
 
 export abstract class BasicEntity implements IEntity {
-    _id: any;
+
+    @PrimaryGeneratedColumn()
+    _id: number;
     path: string;
     creationDate: Date;
 
@@ -33,12 +36,12 @@ export abstract class BasicEntity implements IEntity {
 
     }
 
-    setId(_id: string): BasicEntity {
+    setId(_id: any): BasicEntity {
         this._id = _id;
         return this;
     }
 
-    getId(): string {
+    getId(): any {
         return this._id;
     }
 }
