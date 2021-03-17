@@ -15,6 +15,6 @@ export enum JOBS {
 }
 
 export enum TRAFFIC_LIGHT_STATUS {
-  SAFE = 'Safe',
-  WAIT = 'Wait'
+  SAFE = 'SAFE',
+  WAIT = 'WAIT'
 }
