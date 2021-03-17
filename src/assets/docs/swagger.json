@@ -20,6 +20,33 @@
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
+    "/auth": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Authorize an User in the API",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "credentials",
+            "description": "Credentials for authorization",
+            "schema": {
+              "$ref": "#/definitions/AuthConfig"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AuthResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/users": {
       "get": {
         "tags": ["Users"],
@@ -172,6 +199,159 @@
           }
         }
       }
+    },
+    "/traffic-lights": {
+      "get": {
+        "tags": ["TrafficLights"],
+        "summary": "Get all Traffic Lights in system",
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "description": "Offset of pagination",
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "description": "Limit of entities that the request should return",
+            "type": "number"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": true,
+            "description": "Sorting expression for the request",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TrafficLight"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["TrafficLights"],
+        "summary": "Create a new Traffic Light in system",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "description": "The new Traffic Light to create",
+            "schema": {
+              "$ref": "#/definitions/TrafficLight"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "CREATED",
+            "schema": {
+              "$ref": "#/definitions/TrafficLight"
+            }
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        }
+      }
+    },
+    "/traffic-lights/{id}": {
+      "get": {
+        "tags": ["TrafficLights"],
+        "summary": "Get traffic light with given ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "traffic light with id",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TrafficLight"
+            }
+          },
+          "404": {
+            "description": "Document not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update traffic light with given ID",
+        "tags": ["TrafficLights"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "user with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "in": "body",
+            "name": "traffic light",
+            "description": "The Traffic Light to update",
+            "schema": {
+              "$ref": "#/definitions/TrafficLight"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TrafficLight"
+            }
+          },
+          "422": {
+            "description": "Validation error"
+          },
+          "404": {
+            "description": "Document not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete traffic light with given ID",
+        "tags": ["TrafficLights"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Delete traffic light with id",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "NO_CONTENT",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "404": {
+            "description": "Document not found"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -199,6 +379,53 @@
         }
       }
     },
+    "AuthConfig": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "jhondoe@email.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "123456"
+        }
+      }
+    },
+    "AuthResponse": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Jhon Doe"
+        },
+        "email": {
+          "type": "string",
+          "example": "jhondoe@email.com"
+        },
+        "accessToken": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsdWl6bmRzQGhvdG1haWwuY29tIiwiaXNzIjoic2FmZWNyb3NzaW5nLWFwaSIsImlhdCI6MTYxNTkzODkxNSwiZXhwIjoxNjE1OTQyNTE1fQ.av9AOFhm9c-ZrtrHMbzR8ZTUQCKB5A4uRi1YKEhHjso"
+        }
+      }
+    },
+    "TrafficLight": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Semaphore X"
+        },
+        "coordinates": {
+          "type": "string",
+          "example": "'-28.706328, -49.294791'"
+        },
+        "lastStatus": {
+          "type": "string",
+          "example": "SAFE"
+        }
+      }
+    },
     "Users": {
       "type": "object",
       "properties": {
@@ -206,6 +433,17 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/User"
+          }
+        }
+      }
+    },
+    "TrafficLights": {
+      "type": "object",
+      "properties": {
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TrafficLight"
           }
         }
       }
