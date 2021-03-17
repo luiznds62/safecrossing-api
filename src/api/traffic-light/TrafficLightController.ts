@@ -10,7 +10,7 @@ class TrafficLightController extends BasicController<TrafficLight, TrafficLightS
   service: TrafficLightService;
 
   constructor() {
-    super(TrafficLight, '/traffic-lights', new TrafficLightService(), new TrafficLightMap());
+    super(TrafficLight, '/traffic-lights', new TrafficLightMap());
     this.applyRoutes();
   }
 

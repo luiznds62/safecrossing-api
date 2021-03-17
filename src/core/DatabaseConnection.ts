@@ -7,7 +7,7 @@ import { InternalServerError } from './exception/InternalServerError';
 class DatabaseConnection {
   connection: Connection;
 
-  async createConnection(): Promise<void> {
+  async createConnection(): Promise<Connection> {
     try {
       if(this.connection) {
         return;
@@ -25,6 +25,8 @@ class DatabaseConnection {
         ],
         synchronize: (<any>environments.DATABASE.SYNCRONIZE)
       });
+
+      return this.connection;
     } catch (e) {
       throw new InternalServerError();
     }

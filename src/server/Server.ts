@@ -7,6 +7,8 @@ import { errorHandler } from '../common/ErrorHandler';
 import { TokenParser } from '../security/TokenParser';
 import * as bodyParser from 'body-parser';
 import * as routes from '../api/router';
+import databaseConnection from '../core/DatabaseConnection';
+import { InternalServerError } from '../core/exception/InternalServerError';
 
 export default class Server extends EventEmitter {
   application: express.Application;
@@ -37,6 +39,24 @@ export default class Server extends EventEmitter {
     this.application.use(errorHandler);
 
     return this;
+  }
+
+  initInfrastructure() {
+    databaseConnection.createConnection()
+      .then(connection => {
+        logger.info(`Succesfully connected on database: ${(<any>connection.options).host}`);
+      }).catch(err => {
+      throw new InternalServerError(err.message);
+    });
+  }
+
+  cleanUp() {
+    try {
+      databaseConnection.connection.close();
+      logger.info('Succesfully disconnected from database');
+    } catch (e) {
+      throw new InternalServerError(e.message);
+    }
   }
 
   start() {

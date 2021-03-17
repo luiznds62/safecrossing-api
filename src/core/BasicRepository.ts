@@ -23,27 +23,15 @@ interface IRepository<T> {
 
 export abstract class BasicRepository<T extends BasicEntity> extends EventEmitter implements IRepository<T> {
   db: Repository<T>;
-  model;
 
   constructor(model) {
     super();
-    this.model = model;
+    this.db = getRepository(model);
 
     this.on('beforePersist', (model) => {
       model.beforePersist(model);
     });
-
-    if (!databaseConnection.connection) {
-      databaseConnection.createConnection().then(() => {
-        this.db = getConnection().getRepository(model);
-      }).catch(err => {
-        throw new InternalServerError();
-      });
-    } else {
-      this.db = getRepository(model);
-    }
   }
-
 
   async findAll(offset: number, limit: number, sort: string): Promise<BasicPage<T>> {
     return new Promise((resolve, reject) => {
