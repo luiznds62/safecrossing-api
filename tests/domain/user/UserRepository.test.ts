@@ -6,29 +6,25 @@ import { USER_CONSTS } from './UserTestUtils';
 jest.mock('typeorm');
 
 describe('UserRepository', () => {
-  (<any>nedb).prototype.findOne.mockImplementation(async (query, fn) => {
+  (<any>UserRepository.prototype.db).findOne.mockImplementation(async (query, fn) => {
     fn(false, await new User(USER_CONSTS.userProps));
   });
 
-  (<any>nedb).prototype.find.mockImplementation(async (query, fn) => {
+  (<any>UserRepository.prototype.db).find.mockImplementation(async (query, fn) => {
     const users = [await new User(USER_CONSTS.userProps), await new User(USER_CONSTS.userProps)];
     fn(false, users);
   });
 
-  (<any>nedb).prototype.insert.mockImplementation(async (query, fn) => {
+  (<any>UserRepository.prototype.db).insert.mockImplementation(async (query, fn) => {
     fn(false, await new User(USER_CONSTS.userProps));
   });
 
-  (<any>nedb).prototype.update.mockImplementation(async (query, model, {}, fn) => {
+  (<any>UserRepository.prototype.db).update.mockImplementation(async (query, model, {}, fn) => {
     fn(false, await new User(USER_CONSTS.userProps));
   });
 
-  (<any>nedb).prototype.remove.mockImplementation(async (query, {}, fn) => {
+  (<any>UserRepository.prototype.db).remove.mockImplementation(async (query, {}, fn) => {
     fn(false, 1);
-  });
-
-  (<any>nedb).prototype.loadDatabase.mockImplementation(async (fn) => {
-    fn(false);
   });
 
   const repository: UserRepository = new UserRepository();

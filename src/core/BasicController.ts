@@ -42,8 +42,8 @@ abstract class BasicController<T extends BasicEntity, K extends BasicService<any
   findById = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
       const model: T = await this.service.findById(req.params.id);
-      if(!model){
-        throw new NotFoundError("Document not found");
+      if (!model) {
+        throw new NotFoundError('Document not found');
       }
 
       res.json(this.mapper.toDTO(model));
@@ -78,7 +78,11 @@ abstract class BasicController<T extends BasicEntity, K extends BasicService<any
 
   delete = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
-      await this.service.delete(req.params.id);
+      const model = await this.service.findById(req.params.id);
+      if (!model) {
+        throw new NotFoundError('Document not found');
+      }
+      await this.service.delete(model);
       res.sendStatus(HTTP_STATUS.SUCCESS_NO_CONTEND);
       next();
     } catch (error) {
