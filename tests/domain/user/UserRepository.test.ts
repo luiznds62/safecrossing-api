@@ -1,10 +1,9 @@
-import nedb from 'nedb';
 import { BasicPage } from '../../../src/core/BasicPage';
 import { User } from '../../../src/domain/user/User';
 import { UserRepository } from '../../../src/domain/user/UserRepository';
 import { USER_CONSTS } from './UserTestUtils';
 
-jest.mock('nedb');
+jest.mock('typeorm');
 
 describe('UserRepository', () => {
   (<any>nedb).prototype.findOne.mockImplementation(async (query, fn) => {

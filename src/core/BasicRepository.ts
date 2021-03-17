@@ -1,9 +1,7 @@
 import { BasicEntity } from './BasicEntity';
 import { EventEmitter } from 'events';
 import { BasicPage } from './BasicPage';
-import { getConnection, getRepository, Repository } from 'typeorm';
-import databaseConnection from './DatabaseConnection';
-import { InternalServerError } from './exception/InternalServerError';
+import { getRepository, Repository } from 'typeorm';
 
 interface IRepository<T> {
   findAll(offset: number, limit: number, sort: string): Promise<BasicPage<T>>;
@@ -33,27 +31,24 @@ export abstract class BasicRepository<T extends BasicEntity> extends EventEmitte
     });
   }
 
-  async findAll(offset: number, limit: number, sort: string): Promise<BasicPage<T>> {
-    return new Promise((resolve, reject) => {
+  async findAll(offset: number, limit: number, sort: string, filter?: string): Promise<BasicPage<T>> {
+    return new Promise(async (resolve, reject) => {
       const skip = offset * limit;
-      // this.db
-      //   .find({})
-      //   .skip(skip)
-      //   .limit(limit)
-      //   .sort(sort)
-      //   .exec((err, docs) => {
-      //     if (err) reject(err);
-      //
-      //     this.db.count({}).exec((err, count) => {
-      //       const page = new BasicPage<T>()
-      //         .setContent(docs.map((doc) => new this.model(doc)))
-      //         .setTotal(Number(count))
-      //         .setHasNext(skip + docs.length < Number(count))
-      //         .build();
-      //
-      //       resolve(page);
-      //     });
-      //   });
+      const count = await this.db.count({});
+      const content = await this.db.createQueryBuilder('content')
+        .where(filter)
+        .offset(skip)
+        .limit(limit)
+        .orderBy(sort)
+        .getMany();
+
+      const page = new BasicPage<T>()
+        .setContent(content)
+        .setTotal(Number(count))
+        .setHasNext(skip + content.length < Number(count))
+        .build();
+
+      resolve(page);
     });
   }
 
