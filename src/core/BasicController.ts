@@ -8,7 +8,7 @@ import { BasicEntity } from './BasicEntity';
 import { Inject } from 'typescript-ioc';
 import { NotFoundError } from './exception/NotFoundError';
 
-abstract class BasicController<T extends BasicEntity, K extends BasicService<any, T>, M extends Mapper<T>> {
+abstract class BasicController<T, K extends BasicService<any, T>, M extends Mapper<T>> {
   basePath: string;
   model: T;
   service: K;

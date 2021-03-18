@@ -1,85 +1,69 @@
-import { IsDefined, Length } from 'class-validator';
-import { Result } from '../../common/Result';
-import { BasicEntity, IEntity } from '../../core/BasicEntity';
-import { Column, Entity } from 'typeorm';
+import Sequelize from 'sequelize';
+import { TRAFFIC_LIGHT_STATUS } from '../../common/Constants';
+import sequelize from '../../core/DatabaseConnection';
 
-interface TrafficLightProps extends IEntity {
-  name: string;
-  coordinates: string;
-  lastStatus: string;
-}
-
-@Entity()
-class TrafficLight extends BasicEntity {
-
-  @Column({ length: 30 })
-  @IsDefined()
-  @Length(5, 30)
+class TrafficLight extends Sequelize.Model {
+  private id: number;
   private name: string;
-
-  @Column({ unique: true })
-  @IsDefined()
   private coordinates: string;
-
-  @Column()
-  @IsDefined()
   private lastStatus: string;
 
-  constructor(props: TrafficLightProps) {
-    super();
-    if (props) {
-      if (this.hasId(props)) {
-        this.setId(props._id);
-      }
-      this.setName(props.name);
-      this.setCoordinates(props.coordinates);
-      this.setLastStatus(props.lastStatus);
-    }
+  beforePersist() {
+
   }
 
-  hasId(props) {
-    return Object.keys(props).includes('_id');
-  }
-
-  setName = (name: string): TrafficLight => {
-    this.name = name;
-    return this;
+  getId() {
+    return this.id;
   };
 
-  getName = (): string => {
+  setId(id) {
+    this.id = id;
+  };
+
+  getName() {
     return this.name;
   };
 
-  setCoordinates = (coordinates: string): TrafficLight => {
-    this.coordinates = coordinates;
-    return this;
+  setName(name) {
+    this.name = name;
   };
 
-  getCoordinates = (): string => {
+  getCoordinates() {
     return this.coordinates;
   };
 
-  setLastStatus = (lastStatus: string): TrafficLight => {
-    this.lastStatus = lastStatus;
-    return this;
+  setCoordinates(coordinates) {
+    this.coordinates = coordinates;
   };
 
-  getLastStatus = (): string => {
+  getLastStatus() {
     return this.lastStatus;
   };
 
-  beforePersist() {
-  }
-
-  public static async create(props: TrafficLightProps) {
-    const trafficLight = new TrafficLight({ ...props });
-
-    try {
-      return Result.ok<TrafficLight>(await (<TrafficLight>(<unknown>this.validate(trafficLight))));
-    } catch (error) {
-      throw error;
-    }
-  }
+  setLastStatus(lastStatus) {
+    this.lastStatus = lastStatus;
+  };
 }
+
+TrafficLight.init({
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  coordinates: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  lastStatus: {
+    type: Sequelize.ENUM({
+      values: [TRAFFIC_LIGHT_STATUS.SAFE, TRAFFIC_LIGHT_STATUS.WAIT]
+    }),
+    allowNull: false
+  }
+}, {
+  sequelize,
+  modelName: 'TrafficLight',
+  timestamps: true
+});
 
 export { TrafficLight };

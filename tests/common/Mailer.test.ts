@@ -23,7 +23,7 @@ const EMAIL_CONSTS = {
   html: '<h1>test</h1>'
 };
 
-describe('Mailer', () => {
+describe('MailerService', () => {
   (<any>nodemailer).createTransport.mockImplementation(() => {
     return createTransport;
   });

@@ -8,7 +8,7 @@ describe('UserDto', () => {
 
     expect(user).toBeDefined();
     expect(user).toBeInstanceOf(User);
-    expect(user._id).toBe(USER_CONSTS.userProps._id);
+    expect(user.getId()).toBe(USER_CONSTS.userProps._id);
     expect(user.getName()).toBe(USER_CONSTS.userProps.name);
     expect(user.getEmail()).toBe(USER_CONSTS.userProps.email);
     expect(user.getPassword()).toBe(USER_CONSTS.userProps.password);

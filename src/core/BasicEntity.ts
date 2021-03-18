@@ -1,18 +1,10 @@
+import 'reflect-metadata'
 import { validate } from 'class-validator';
 import { ValidationError } from './exception/ValidationError';
 import { HTTP_STATUS } from '../common/Constants';
-import { PrimaryGeneratedColumn } from 'typeorm';
 
-export interface IEntity {
-    _id: any;
-    path?: string
-}
+export abstract class BasicEntity {
 
-export abstract class BasicEntity implements IEntity {
-
-    @PrimaryGeneratedColumn()
-    _id: number;
-    path: string;
     creationDate: Date;
 
     protected constructor() {
@@ -34,14 +26,5 @@ export abstract class BasicEntity implements IEntity {
 
     public afterPersist(model) {
 
-    }
-
-    setId(_id: any): BasicEntity {
-        this._id = _id;
-        return this;
-    }
-
-    getId(): any {
-        return this._id;
     }
 }

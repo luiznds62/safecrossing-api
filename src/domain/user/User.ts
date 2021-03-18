@@ -1,79 +1,14 @@
-import 'reflect-metadata';
-import bcrypt from 'bcryptjs';
-import { BasicEntity, IEntity } from '../../core/BasicEntity';
-import { Result } from '../../common/Result';
-import { IsDefined, IsEmail, IsString, Length } from 'class-validator';
-import { BCRYPT } from '../../common/Constants';
+import Sequelize, { Model } from 'sequelize';
+import sequelize from '../../core/DatabaseConnection';
 import { logger } from '../../common/Logger';
-import { Column, Entity } from 'typeorm';
+import { BCRYPT } from '../../common/Constants';
+import bcrypt from 'bcryptjs';
 
-interface UserProps extends IEntity {
-  name: string;
-  email: string;
-  password: string;
-}
-
-@Entity()
-class User extends BasicEntity {
-
-  @Column()
-  @IsDefined()
-  @Length(5, 30)
+class User extends Model {
+  private id: number;
   private name: string;
-
-  @Column({unique: true})
-  @IsDefined()
-  @IsEmail()
   private email: string;
-
-  @Column()
-  @IsDefined()
-  @IsString()
-  @Length(6, 20)
   private password: string;
-
-  constructor(props: UserProps) {
-    super();
-    if (props) {
-      if (this.hasId(props)) {
-        this.setId(props._id);
-      }
-      this.setName(props.name);
-      this.setEmail(props.email);
-      this.setPassword(props.password);
-    }
-  }
-
-  hasId(props) {
-    return Object.keys(props).includes('_id');
-  }
-
-  setName = (name: string): User => {
-    this.name = name;
-    return this;
-  };
-
-  getName = (): string => {
-    return this.name;
-  };
-
-  setEmail = (email: string): User => {
-    this.email = email;
-    return this;
-  };
-
-  getEmail = (): string => {
-    return this.email;
-  };
-
-  setPassword = (password: string): User => {
-    this.password = password;
-    return this;
-  };
-
-  getPassword = (): string => {
-    return this.password;
-  };
 
   beforePersist() {
     try {
@@ -83,15 +18,56 @@ class User extends BasicEntity {
     }
   }
 
-  public static async create(props: UserProps) {
-    const user = new User({ ...props });
+  getId() {
+    return this.id;
+  }
 
-    try {
-      return Result.ok<User>(await (<User>(<unknown>this.validate(user))));
-    } catch (error) {
-      throw error;
-    }
+  setId(id) {
+    this.id = id;
+  }
+
+  getName() {
+    return this.name;
+  }
+
+  setName(name) {
+    this.name = name;
+  }
+
+  getEmail() {
+    return this.email;
+  }
+
+  setEmail(email) {
+    this.email = email;
+  }
+
+  getPassword() {
+    return this.password;
+  }
+
+  setPassword(password) {
+    this.password = password;
   }
 }
+
+User.init({
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  email: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  password: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
+}, {
+  sequelize,
+  modelName: 'User',
+  timestamps: true
+});
 
 export { User };

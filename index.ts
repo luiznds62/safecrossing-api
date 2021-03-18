@@ -6,15 +6,10 @@ const server = new Server();
 
 server
   .start()
-  .then((server: Server) => {
+  .then(async (server: Server) => {
     server.initRoutes();
-    server.initInfrastructure();
+    await server.initInfrastructure();
   })
   .catch((err) => {
     logger.error(err);
   });
-
-process.stdin.resume();
-[`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
-  process.on(eventType, () => server.cleanUp());
-})

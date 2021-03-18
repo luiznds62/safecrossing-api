@@ -7,7 +7,7 @@ export const TRAFFIC_LIGHT_CONSTS = {
     sort: ''
   },
   trafficLightProps: {
-    _id: '123456',
+    _id: 1,
     name: 'testes',
     coordinates: '-28.706328, -49.294791',
     lastStatus: TRAFFIC_LIGHT_STATUS.SAFE

@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { BasicPage } from '../../../src/core/BasicPage';
 import { User } from '../../../src/domain/user/User';
 import { UserRepository } from '../../../src/domain/user/UserRepository';
@@ -7,6 +8,7 @@ import { USER_CONSTS } from './UserTestUtils';
 jest.mock('../../../src/domain/user/UserRepository');
 
 describe('UserService', () => {
+
   const usersPage = new BasicPage()
     .setContent([new User(USER_CONSTS.userProps)])
     .setHasNext(false)
@@ -59,7 +61,7 @@ describe('UserService', () => {
     const user: User = await service.create(USER_CONSTS.userProps);
 
     user.setName(USER_CONSTS.changedUser);
-    const userUpdated: User = await service.merge(user._id, user);
+    const userUpdated: User = await service.merge(user.getId(), user);
 
     expect(user).toBeDefined();
     expect(user).toBeInstanceOf(User);

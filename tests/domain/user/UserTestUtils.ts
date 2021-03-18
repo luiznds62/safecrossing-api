@@ -6,7 +6,7 @@ export const USER_CONSTS = {
     sort: ''
   },
   userProps: {
-    _id: '123456',
+    _id: 1,
     name: 'testes',
     email: 'test@hotmail.com',
     password: '12345678'

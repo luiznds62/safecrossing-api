@@ -1,7 +1,7 @@
 import { BasicRepository } from './BasicRepository';
 import { BasicEntity } from './BasicEntity';
 import { BasicPage } from './BasicPage';
-export abstract class BasicService<R extends BasicRepository<T>, T extends BasicEntity> {
+export abstract class BasicService<R extends BasicRepository<T>, T> {
   repository: R;
 
   constructor(repository: R) {

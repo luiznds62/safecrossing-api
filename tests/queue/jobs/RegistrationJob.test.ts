@@ -1,4 +1,3 @@
-import { RegistrationMail } from '../../../src/assets/RegistrationMail';
 import { Mailer } from '../../../src/common/Mailer';
 import { User } from '../../../src/domain/user/User';
 import { UserService } from '../../../src/domain/user/UserService';

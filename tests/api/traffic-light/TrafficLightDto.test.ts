@@ -8,7 +8,7 @@ describe('TrafficLightDto', () => {
 
     expect(trafficLight).toBeDefined();
     expect(trafficLight).toBeInstanceOf(TrafficLight);
-    expect(trafficLight._id).toBe(TRAFFIC_LIGHT_CONSTS.trafficLightProps._id);
+    expect(trafficLight.getId()).toBe(TRAFFIC_LIGHT_CONSTS.trafficLightProps._id);
     expect(trafficLight.getName()).toBe(TRAFFIC_LIGHT_CONSTS.trafficLightProps.name);
     expect(trafficLight.getCoordinates()).toBe(TRAFFIC_LIGHT_CONSTS.trafficLightProps.coordinates);
     expect(trafficLight.getLastStatus()).toBe(TRAFFIC_LIGHT_CONSTS.trafficLightProps.lastStatus);
