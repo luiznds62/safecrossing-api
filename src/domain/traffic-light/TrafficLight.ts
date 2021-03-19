@@ -48,11 +48,21 @@ class TrafficLight extends Sequelize.Model {
 TrafficLight.init({
   name: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: '[O nome deve ser informado]'
+      }
+    }
   },
   coordinates: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: '[As coordenadas devem ser informadas]'
+      }
+    }
   },
   lastStatus: {
     type: Sequelize.ENUM({

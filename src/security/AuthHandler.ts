@@ -24,7 +24,7 @@ class AuthHandler {
           accessToken: token
         };
         res.json(authInfo);
-        return next(authInfo);
+        next();
       } else {
         return next(new NotAuthorizedError('Invalid credentials'));
       }

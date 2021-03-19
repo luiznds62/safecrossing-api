@@ -1,4 +1,3 @@
-import { Result } from '../../../src/common/Result';
 import { User } from '../../../src/domain/user/User';
 
 const CONSTS = {
@@ -8,116 +7,116 @@ const CONSTS = {
   password: '123456'
 };
 
-describe('User', () => {
+describe('UserModel', () => {
   test('Should create User', async () => {
-    const result: Result<User> = await User.create({
-      _id: CONSTS._id,
+    const ret = await User.build({
+      id: CONSTS._id,
       name: CONSTS.name,
       email: CONSTS.email,
       password: CONSTS.password
     });
 
-    expect(result.getValue()).toBeDefined();
-    expect(result.getValue().getId()).toBe(CONSTS._id);
-    expect(result.getValue().getEmail()).toBe(CONSTS.email);
-    expect(result.getValue().getPassword()).toBe(CONSTS.password);
+    expect(ret).toBeDefined();
+    expect(ret.getId()).toBe(CONSTS._id);
+    expect(ret.getEmail()).toBe(CONSTS.email);
+    expect(ret.getPassword()).toBe(CONSTS.password);
   });
 
   test('Should not create User without name', async () => {
     try {
-      await User.create({
-        _id: CONSTS._id,
-        name: undefined,
+      await User.build({
+        id: CONSTS._id,
+        name: null,
         email: CONSTS.email,
         password: CONSTS.password
-      });
+      }).validate();
     } catch (error) {
       expect(error).toBeDefined();
-      expect(error.message).toBe('name should not be null or undefined');
+      expect(error.message).toBe('notNull Violation: [O nome deve ser informado]');
     }
   });
 
   test('Should not create User without email', async () => {
     try {
-      await User.create({
-        _id: CONSTS._id,
+      await User.build({
+        id: CONSTS._id,
         name: CONSTS.name,
         email: undefined,
         password: CONSTS.password
-      });
+      }).validate();;
     } catch (error) {
       expect(error).toBeDefined();
-      expect(error.message).toBe('email should not be null or undefined');
+      expect(error.message).toBe('notNull Violation: [O e-mail deve ser informado]');
     }
   });
 
   test('Should not create User without password', async () => {
     try {
-      await User.create({
-        _id: CONSTS._id,
+      await User.build({
+        id: CONSTS._id,
         name: CONSTS.name,
         email: CONSTS.email,
         password: undefined
-      });
+      }).validate();;
     } catch (error) {
       expect(error).toBeDefined();
-      expect(error.message).toBe('password should not be null or undefined');
+      expect(error.message).toBe('notNull Violation: [A senha deve ser informada]');
     }
   });
 
   test('Should not create User with name length lower than five', async () => {
     try {
-      await User.create({
-        _id: CONSTS._id,
+      await User.build({
+        id: CONSTS._id,
         name: 'name',
         email: CONSTS.email,
         password: CONSTS.password
-      });
+      }).validate();;
     } catch (error) {
       expect(error).toBeDefined();
-      expect(error.message).toBe('name must be longer than or equal to 5 characters');
+      expect(error.message).toBe('Validation error: [O nome deve possuir de 5 a 50 caractéres]');
     }
   });
 
   test('Should not create User with invalid e-mail', async () => {
     try {
-      await User.create({
-        _id: CONSTS._id,
+      await User.build({
+        id: CONSTS._id,
         name: CONSTS.name,
         email: 'invalidmail.com',
         password: CONSTS.password
-      });
+      }).validate();;
     } catch (error) {
       expect(error).toBeDefined();
-      expect(error.message).toBe('email must be an email');
+      expect(error.message).toBe('Validation error: [E-mail inválido]');
     }
   });
 
   test('Should not create User with password lower than 6', async () => {
     try {
-      await User.create({
-        _id: CONSTS._id,
+      await User.build({
+        id: CONSTS._id,
         name: CONSTS.name,
         email: CONSTS.email,
         password: '12345'
-      });
+      }).validate();
     } catch (error) {
       expect(error).toBeDefined();
-      expect(error.message).toBe('password must be longer than or equal to 6 characters');
+      expect(error.message).toBe('Validation error: [A senha deve possuir de 5 a 20 caractéres]');
     }
   });
 
   test('Should not create User with password bigger than 20', async () => {
     try {
-      await User.create({
-        _id: CONSTS._id,
+      await User.build({
+        id: CONSTS._id,
         name: CONSTS.name,
         email: CONSTS.email,
         password: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-      });
+      }).validate();
     } catch (error) {
       expect(error).toBeDefined();
-      expect(error.message).toBe('password must be shorter than or equal to 20 characters');
+      expect(error.message).toBe('Validation error: [A senha deve possuir de 5 a 20 caractéres]');
     }
   });
 });

@@ -54,15 +54,41 @@ class User extends Model {
 User.init({
   name: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      len: {
+        args: [5, 50],
+        msg: '[O nome deve possuir de 5 a 50 caractéres]'
+      },
+      notNull: {
+        msg: '[O nome deve ser informado]'
+      }
+    }
   },
   email: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      isEmail: {
+        msg: '[E-mail inválido]'
+      },
+      notNull: {
+        msg: '[O e-mail deve ser informado]'
+      }
+    }
   },
   password: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      len: {
+        args: [5, 20],
+        msg: '[A senha deve possuir de 5 a 20 caractéres]'
+      },
+      notNull: {
+        msg: '[A senha deve ser informada]'
+      }
+    }
   }
 }, {
   sequelize,
