@@ -1,8 +1,6 @@
 import { User } from '../../../src/domain/user/User';
 import { UserRepository } from '../../../src/domain/user/UserRepository';
 import { USER_CONSTS } from './UserTestUtils';
-jest.mock('typeorm');
-
 
 describe('UserRepository', () => {
   test('', () => {

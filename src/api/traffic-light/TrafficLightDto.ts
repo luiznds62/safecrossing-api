@@ -12,7 +12,7 @@ export interface TrafficLightDto {
 export class TrafficLightMap extends Mapper<TrafficLight> {
   toDomain(raw: any): TrafficLight {
     return TrafficLight.build({
-      id: raw._id,
+      id: raw.id,
       name: raw.name,
       coordinates: raw.coordinates,
       lastStatus: raw.lastStatus

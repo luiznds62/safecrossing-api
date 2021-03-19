@@ -18,13 +18,13 @@ class AuthHandler {
       if (user && this.userService.isPasswordMatch(password, user.getPassword())) {
         const token = jwt.sign({ sub: user.getEmail(), iss: environment.SECURITY.ISS }, environment.SECURITY.API_SECRET, { expiresIn: 60 * 60 });
         const authInfo = {
-          _id: user.getId(),
+          id: user.getId(),
           name: user.getName(),
           email: user.getEmail(),
           accessToken: token
         };
         res.json(authInfo);
-        next();
+        return next(authInfo);
       } else {
         return next(new NotAuthorizedError('Invalid credentials'));
       }

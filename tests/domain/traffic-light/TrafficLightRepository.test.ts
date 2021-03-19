@@ -1,11 +1,5 @@
 import 'reflect-metadata';
-import { TRAFFIC_LIGHT_CONSTS } from './TrafficLightTestUtils';
-import { TrafficLight } from '../../../src/domain/traffic-light/TrafficLight';
 import { TrafficLightRepository } from '../../../src/domain/traffic-light/TrafficLightRepository';
-import { BasicEntity } from '../../../src/core/BasicEntity';
-
-jest.mock('typeorm');
-jest.mock('../../../src/core/BasicEntity')
 
 describe('TrafficLightRepository', () => {
   test('', () => {

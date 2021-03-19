@@ -8,7 +8,7 @@ describe('UserDto', () => {
 
     expect(user).toBeDefined();
     expect(user).toBeInstanceOf(User);
-    expect(user.getId()).toBe(USER_CONSTS.userProps._id);
+    expect(user.getId()).toBe(USER_CONSTS.userProps.id);
     expect(user.getName()).toBe(USER_CONSTS.userProps.name);
     expect(user.getEmail()).toBe(USER_CONSTS.userProps.email);
     expect(user.getPassword()).toBe(USER_CONSTS.userProps.password);
@@ -32,7 +32,7 @@ describe('UserDto', () => {
     const dto = new UserMap().toDTO(new User(USER_CONSTS.userProps));
 
     expect(dto).toBeDefined();
-    expect(dto._id).toBeDefined();
+    expect(dto.id).toBeDefined();
     expect(dto.name).toBeDefined();
     expect(dto.email).toBeDefined();
     expect(dto.password).toBeDefined();
