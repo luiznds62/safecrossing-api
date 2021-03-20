@@ -17,7 +17,7 @@ describe('RegistrationJob', () => {
   });
 
   test('Should handle RegistrationJob', async () => {
-    const jobOptions = { data: { userId: USER_CONSTS.userProps._id } };
+    const jobOptions = { data: { userId: USER_CONSTS.userProps.id } };
     UserService.prototype.findById = jest.fn().mockReturnValue(new User(USER_CONSTS.userProps));
     Mailer.prototype.send = jest.fn().mockReturnValue(true);
     RegistrationJob.userService = new UserService();

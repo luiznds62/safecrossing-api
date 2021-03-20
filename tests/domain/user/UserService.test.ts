@@ -38,7 +38,7 @@ describe('UserService', () => {
   });
 
   test('Should find User by id', async () => {
-    const user: User = await service.findById(USER_CONSTS.userProps._id);
+    const user: User = await service.findById(USER_CONSTS.userProps.id);
 
     expect(user).toBeDefined();
     expect(user).toBeInstanceOf(User);
@@ -71,7 +71,7 @@ describe('UserService', () => {
   });
 
   test('Should delete User', async () => {
-    const affecteds = await service.delete(USER_CONSTS.userProps._id);
+    const affecteds = await service.delete(USER_CONSTS.userProps.id);
 
     expect(affecteds).toBeDefined();
     expect(affecteds).toBe(USER_CONSTS.affecteds);

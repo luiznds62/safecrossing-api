@@ -8,6 +8,6 @@ module.exports = async () => {
   process.env.DATABASE_PORT="5432";
   process.env.DATABASE_USERNAME="postgres";
   process.env.DATABASE_PASSWORD="1234";
-  process.env.DATABASE_DATABASE="safecrossing";
+  process.env.DATABASE_DATABASE="safecrossing-test";
   process.env.DATABASE_SYNCRONIZE="true";
 };

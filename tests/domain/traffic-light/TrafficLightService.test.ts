@@ -17,7 +17,7 @@ describe('TrafficLightService', () => {
   TrafficLightRepository.prototype.findOne = jest.fn().mockReturnValue(new TrafficLight(TRAFFIC_LIGHT_CONSTS.trafficLightProps));
   TrafficLightRepository.prototype.create = jest.fn().mockReturnValue(new TrafficLight(TRAFFIC_LIGHT_CONSTS.trafficLightProps));
   TrafficLightRepository.prototype.merge = jest.fn().mockReturnValue(new TrafficLight({
-    _id: TRAFFIC_LIGHT_CONSTS.trafficLightProps._id,
+    _id: TRAFFIC_LIGHT_CONSTS.trafficLightProps.id,
     name: TRAFFIC_LIGHT_CONSTS.changedTrafficLight,
     coordinates: TRAFFIC_LIGHT_CONSTS.trafficLightProps.coordinates,
     lastStatus: TRAFFIC_LIGHT_CONSTS.trafficLightProps.lastStatus
@@ -42,7 +42,7 @@ describe('TrafficLightService', () => {
   });
 
   test('Should find TrafficLight by id', async () => {
-    const trafficLight: TrafficLight = await service.findById(TRAFFIC_LIGHT_CONSTS.trafficLightProps._id);
+    const trafficLight: TrafficLight = await service.findById(TRAFFIC_LIGHT_CONSTS.trafficLightProps.id);
 
     expect(trafficLight).toBeDefined();
     expect(trafficLight).toBeInstanceOf(TrafficLight);
@@ -75,7 +75,7 @@ describe('TrafficLightService', () => {
   });
 
   test('Should delete TrafficLight', async () => {
-    const affecteds = await service.delete(TRAFFIC_LIGHT_CONSTS.trafficLightProps._id);
+    const affecteds = await service.delete(TRAFFIC_LIGHT_CONSTS.trafficLightProps.id);
 
     expect(affecteds).toBeDefined();
     expect(affecteds).toBe(TRAFFIC_LIGHT_CONSTS.affecteds);
