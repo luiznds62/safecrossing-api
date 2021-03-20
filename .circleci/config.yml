@@ -29,11 +29,13 @@ jobs:
       # - node/install-packages:
       #     pkg-manager: yarn
       - run:
-          name: Run tests
-          command: |
+          name: Setting enviroment variables to .env
+          comman: |
             touch .env
-            echo DATABASE_URL=$DATABASE_URL > .env
-            npm test
+            echo "DATABASE_URL=$DATABASE_URL" >> .env
+      - run:
+          name: Run tests
+          command: npm test
       - codecov/upload:
           file: './coverage/clover.xml'
           token: $CODECOV_TOKEN
