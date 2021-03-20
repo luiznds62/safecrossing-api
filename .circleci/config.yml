@@ -32,7 +32,8 @@ jobs:
           name: Run tests
           command: |
             touch .env
-            echo "DATABASE_URL=$DATABASE_URL" > .env
+            echo $DATABASE_URL
+            echo DATABASE_URL=$DATABASE_URL > .env
             npm test
       - codecov/upload:
           file: './coverage/clover.xml'
