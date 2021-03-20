@@ -4,6 +4,7 @@ export default {
         LOG_LEVEL: process.env.SERVER_LOG_LEVEL
     },
     DATABASE: {
+        URL: process.env.DATABASE_URL,
         TYPE: process.env.DATABASE_TYPE,
         HOST: process.env.DATABASE_HOST,
         PORT: parseInt(process.env.DATABASE_PORT),
