@@ -13,7 +13,11 @@ const sequelize = new Sequelize(environments.DATABASE.DATABASE, environments.DAT
 });
 
 export const openConnection = () => {
-  return sequelize.authenticate();
+  return sequelize.authenticate().then(() => {
+    if (environments.DATABASE.SYNCRONIZE) {
+      sequelize.sync({ force: true });
+    }
+  });
 };
 
 export default sequelize;

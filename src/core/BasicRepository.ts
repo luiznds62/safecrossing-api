@@ -19,7 +19,7 @@ interface IRepository<T> {
 }
 
 export abstract class BasicRepository<T> extends EventEmitter implements IRepository<T> {
-  db;
+  public db;
 
   constructor(model) {
     super();
@@ -35,99 +35,57 @@ export abstract class BasicRepository<T> extends EventEmitter implements IReposi
   }
 
   async findAll(offset: number, limit: number, sort: string, filter?: string): Promise<BasicPage<T>> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const sortOptions = sort ? sequelize.literal(sort) : null;
-        const skip = offset * limit;
-        const count = await this.count({});
-        const content = await this.db.findAll({ offset: skip, limit: limit, order: sortOptions });
+    const sortOptions = sort ? sequelize.literal(sort) : null;
+    const skip = offset * limit;
+    const count = await this.count({});
+    const content = await this.db.findAll({ offset: skip, limit: limit, order: sortOptions });
 
-        const page = new BasicPage<T>()
-          .setContent(content)
-          .setTotal(Number(count))
-          .setHasNext(skip + content.length < Number(count))
-          .build();
+    const page = new BasicPage<T>()
+      .setContent(content)
+      .setTotal(Number(count))
+      .setHasNext(skip + content.length < Number(count))
+      .build();
 
-        resolve(page);
-      } catch (e) {
-        reject(e);
-      }
-    });
+    return page;
   }
 
   findOne(query): Promise<T> {
-    return new Promise((resolve, reject) => {
-      try {
-        resolve(this.db.findOne({ where: query }));
-      } catch (e) {
-        reject(e);
-      }
-    });
+    return this.db.findOne({ where: query });
   }
 
   find(query): Promise<T[]> {
-    return new Promise((resolve, reject) => {
-      try {
-        resolve(this.db.find({ where: query }));
-      } catch (e) {
-        reject(e);
-      }
-    });
+    return this.db.findAll({ where: query });
   }
 
   findById(_id): Promise<T> {
-    return new Promise((resolve, reject) => {
-      try {
-        resolve(this.db.findOne({
-          where: {
-            id: _id
-          }
-        }));
-      } catch (e) {
-        reject(e);
+    return this.db.findOne({
+      where: {
+        id: _id
       }
     });
   }
 
-  create(model): Promise<T> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        this.emit('beforePersist', model);
-        const persisted = await this.db.create(model.dataValues);
-        resolve(persisted);
-      } catch (e) {
-        reject(e);
-      }
-    });
+  async create(model): Promise<T> {
+    this.emit('beforePersist', model);
+    const persisted = await this.db.create(model.dataValues);
+    return persisted;
   }
 
-  merge(_id, model): Promise<T> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        delete model.dataValues['id'];
-        await this.db.update(model.dataValues, {
-          where: {
-            id: _id
-          }
-        });
-
-        resolve(this.findById(_id));
-      } catch (e) {
-        reject(e);
+  async merge(_id, model): Promise<T> {
+    delete model.dataValues['id'];
+    await this.db.update(model.dataValues, {
+      where: {
+        id: _id
       }
     });
+
+    return this.findById(_id);
   }
 
   delete(entity: T): Promise<T> {
-    return new Promise((resolve, reject) => {
-      try {
-        resolve(this.db.destroy({
-          where: {
-            id: (<any>entity).id
-          }
-        }));
-      } catch (e) {
-        reject(e);
+    return this.db.destroy({
+      where: {
+        id: (<any>entity).id
       }
     });
   }
