@@ -33,7 +33,6 @@ jobs:
           command: |
             touch .env
             echo "DATABASE_URL=$DATABASE_URL" > .env
-            echo "NODE_OPTIONS=$NODE_OPTIONS" > .env
             npm test
       - codecov/upload:
           file: './coverage/clover.xml'
