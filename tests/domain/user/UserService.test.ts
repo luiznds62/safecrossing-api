@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { BasicPage } from '../../../src/core/BasicPage';
 import { User } from '../../../src/domain/user/User';
 import { UserRepository } from '../../../src/domain/user/UserRepository';
@@ -7,6 +8,7 @@ import { USER_CONSTS } from './UserTestUtils';
 jest.mock('../../../src/domain/user/UserRepository');
 
 describe('UserService', () => {
+
   const usersPage = new BasicPage()
     .setContent([new User(USER_CONSTS.userProps)])
     .setHasNext(false)
@@ -36,7 +38,7 @@ describe('UserService', () => {
   });
 
   test('Should find User by id', async () => {
-    const user: User = await service.findById(USER_CONSTS.userProps._id);
+    const user: User = await service.findById(USER_CONSTS.userProps.id);
 
     expect(user).toBeDefined();
     expect(user).toBeInstanceOf(User);
@@ -59,7 +61,7 @@ describe('UserService', () => {
     const user: User = await service.create(USER_CONSTS.userProps);
 
     user.setName(USER_CONSTS.changedUser);
-    const userUpdated: User = await service.merge(user._id, user);
+    const userUpdated: User = await service.merge(user.getId(), user);
 
     expect(user).toBeDefined();
     expect(user).toBeInstanceOf(User);
@@ -69,7 +71,7 @@ describe('UserService', () => {
   });
 
   test('Should delete User', async () => {
-    const affecteds = await service.delete(USER_CONSTS.userProps._id);
+    const affecteds = await service.delete(USER_CONSTS.userProps.id);
 
     expect(affecteds).toBeDefined();
     expect(affecteds).toBe(USER_CONSTS.affecteds);

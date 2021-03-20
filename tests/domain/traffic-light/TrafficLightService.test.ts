@@ -1,9 +1,9 @@
+import 'reflect-metadata';
 import { BasicPage } from '../../../src/core/BasicPage';
 import { TrafficLight } from '../../../src/domain/traffic-light/TrafficLight';
 import { TRAFFIC_LIGHT_CONSTS } from './TrafficLightTestUtils';
 import { TrafficLightService } from '../../../src/domain/traffic-light/TrafficLightService';
 import { TrafficLightRepository } from '../../../src/domain/traffic-light/TrafficLightRepository';
-
 jest.mock('../../../src/domain/traffic-light/TrafficLightRepository');
 
 describe('TrafficLightService', () => {
@@ -16,10 +16,16 @@ describe('TrafficLightService', () => {
   TrafficLightRepository.prototype.findAll = jest.fn().mockReturnValue(trafficLightPage);
   TrafficLightRepository.prototype.findOne = jest.fn().mockReturnValue(new TrafficLight(TRAFFIC_LIGHT_CONSTS.trafficLightProps));
   TrafficLightRepository.prototype.create = jest.fn().mockReturnValue(new TrafficLight(TRAFFIC_LIGHT_CONSTS.trafficLightProps));
+  TrafficLightRepository.prototype.merge = jest.fn().mockReturnValue(new TrafficLight({
+    _id: TRAFFIC_LIGHT_CONSTS.trafficLightProps.id,
+    name: TRAFFIC_LIGHT_CONSTS.changedTrafficLight,
+    coordinates: TRAFFIC_LIGHT_CONSTS.trafficLightProps.coordinates,
+    lastStatus: TRAFFIC_LIGHT_CONSTS.trafficLightProps.lastStatus
+  }));
   TrafficLightRepository.prototype.findById = jest.fn().mockReturnValue(new TrafficLight(TRAFFIC_LIGHT_CONSTS.trafficLightProps));
   TrafficLightRepository.prototype.delete = jest.fn().mockReturnValue(TRAFFIC_LIGHT_CONSTS.affecteds);
-  const trafficLightRepository = new TrafficLightRepository();
 
+  const trafficLightRepository = new TrafficLightRepository();
   TrafficLightService.prototype.repository = trafficLightRepository;
   const service = new TrafficLightService();
 
@@ -36,7 +42,7 @@ describe('TrafficLightService', () => {
   });
 
   test('Should find TrafficLight by id', async () => {
-    const trafficLight: TrafficLight = await service.findById(TRAFFIC_LIGHT_CONSTS.trafficLightProps._id);
+    const trafficLight: TrafficLight = await service.findById(TRAFFIC_LIGHT_CONSTS.trafficLightProps.id);
 
     expect(trafficLight).toBeDefined();
     expect(trafficLight).toBeInstanceOf(TrafficLight);
@@ -59,23 +65,20 @@ describe('TrafficLightService', () => {
     const trafficLight: TrafficLight = await service.create(TRAFFIC_LIGHT_CONSTS.trafficLightProps);
 
     trafficLight.setName(TRAFFIC_LIGHT_CONSTS.changedTrafficLight);
-    const userUpdated: TrafficLight = await service.merge(trafficLight._id, trafficLight);
+    const updated: TrafficLight = await service.merge(trafficLight.getId(), trafficLight);
 
-    expect(trafficLight).toBeDefined();
-    expect(trafficLight).toBeInstanceOf(TrafficLight);
-    expect(trafficLight.getName()).toBe(TRAFFIC_LIGHT_CONSTS.changedTrafficLight);
-    expect(trafficLight.getCoordinates()).toBe(TRAFFIC_LIGHT_CONSTS.trafficLightProps.coordinates);
-    expect(trafficLight.getLastStatus()).toBe(TRAFFIC_LIGHT_CONSTS.trafficLightProps.lastStatus);
+    expect(updated).toBeDefined();
+    expect(updated).toBeInstanceOf(TrafficLight);
+    expect(updated.getName()).toBe(TRAFFIC_LIGHT_CONSTS.changedTrafficLight);
+    expect(updated.getCoordinates()).toBe(TRAFFIC_LIGHT_CONSTS.trafficLightProps.coordinates);
+    expect(updated.getLastStatus()).toBe(TRAFFIC_LIGHT_CONSTS.trafficLightProps.lastStatus);
   });
 
   test('Should delete TrafficLight', async () => {
-    const affecteds = await service.delete(TRAFFIC_LIGHT_CONSTS.trafficLightProps._id);
+    const affecteds = await service.delete(TRAFFIC_LIGHT_CONSTS.trafficLightProps.id);
 
     expect(affecteds).toBeDefined();
     expect(affecteds).toBe(TRAFFIC_LIGHT_CONSTS.affecteds);
   });
 
-  afterAll(() => {
-    jest.clearAllMocks();
-  });
 });

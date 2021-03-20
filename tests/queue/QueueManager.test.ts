@@ -25,7 +25,7 @@ describe('QueueManager', () => {
   });
 
   test('Should add to queue', async () => {
-    const queue = await QueueManager.add(JOBS.REGISTRATION, { userId: USER_CONSTS.userProps._id });
+    const queue = await QueueManager.add(JOBS.REGISTRATION, { userId: USER_CONSTS.userProps.id });
 
     expect(queue).toBeDefined();
   });

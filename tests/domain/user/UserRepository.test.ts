@@ -1,44 +1,28 @@
-import nedb from 'nedb';
-import { BasicPage } from '../../../src/core/BasicPage';
 import { User } from '../../../src/domain/user/User';
 import { UserRepository } from '../../../src/domain/user/UserRepository';
 import { USER_CONSTS } from './UserTestUtils';
 
-jest.mock('nedb');
-
 describe('UserRepository', () => {
-  (<any>nedb).prototype.findOne.mockImplementation(async (query, fn) => {
-    fn(false, await new User(USER_CONSTS.userProps));
-  });
-
-  (<any>nedb).prototype.find.mockImplementation(async (query, fn) => {
-    const users = [await new User(USER_CONSTS.userProps), await new User(USER_CONSTS.userProps)];
-    fn(false, users);
-  });
-
-  (<any>nedb).prototype.insert.mockImplementation(async (query, fn) => {
-    fn(false, await new User(USER_CONSTS.userProps));
-  });
-
-  (<any>nedb).prototype.update.mockImplementation(async (query, model, {}, fn) => {
-    fn(false, await new User(USER_CONSTS.userProps));
-  });
-
-  (<any>nedb).prototype.remove.mockImplementation(async (query, {}, fn) => {
-    fn(false, 1);
-  });
-
-  (<any>nedb).prototype.loadDatabase.mockImplementation(async (fn) => {
-    fn(false);
-  });
+  (<any>User).beforePersist = () => {
+    return User.build(USER_CONSTS.userProps);
+  };
+  (<any>User).findOne = () => {
+    return User.build(USER_CONSTS.userProps);
+  };
+  (<any>User).findAll = () => {
+    return [User.build(USER_CONSTS.userProps), User.build(USER_CONSTS.userProps)];
+  };
+  (<any>User).create = () => {
+    return User.build(USER_CONSTS.userProps);
+  };
+  (<any>User).update = () => {
+    return (User.build(USER_CONSTS.userProps));
+  }
+  (<any>User).destroy = () => {
+    return undefined;
+  };
 
   const repository: UserRepository = new UserRepository();
-
-  const usersPage = new BasicPage<User>()
-    .setContent([new User(USER_CONSTS.userProps)])
-    .setHasNext(false)
-    .setTotal(1)
-    .build();
 
   test('Should create instance', async () => {
     const repository: UserRepository = new UserRepository();
@@ -68,27 +52,23 @@ describe('UserRepository', () => {
   });
 
   test('Should create new User', async () => {
-    const user: User = await repository.create(await new User(USER_CONSTS.userProps));
+    const user: User = await repository.create(<any>User.build(USER_CONSTS.userProps));
 
     expect(user).toBeDefined();
     expect(user).toBeInstanceOf(User);
   });
 
   test('Should update User', async () => {
-    const user: User = await repository.merge(USER_CONSTS.userProps._id, await new User(USER_CONSTS.userProps));
+    const user: User = await repository.merge(USER_CONSTS.userProps.id, <any>User.build(USER_CONSTS.userProps));
 
     expect(user).toBeDefined();
     expect(user).toBeInstanceOf(User);
   });
 
   test('Should delete user', async () => {
-    const numDeleted = await repository.delete(USER_CONSTS.userProps._id);
+    const numDeleted = await repository.delete((<any>User.build(USER_CONSTS.userProps)).dataValues);
 
-    expect(numDeleted).toBeDefined();
-    expect(numDeleted).toBe(1);
+    expect(numDeleted).toBeUndefined();
   });
-
-  afterAll(() => {
-    jest.clearAllMocks();
-  });
-});
+})
+;

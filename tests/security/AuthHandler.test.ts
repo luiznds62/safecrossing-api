@@ -38,7 +38,7 @@ describe('AuthHandler', () => {
 
     expect(response).toBeDefined();
     expect(response.accessToken).toBeDefined();
-    expect(response._id).toBeDefined();
+    expect(response.id).toBeDefined();
   });
 
   test('Should not authenticate with wrong password', async () => {

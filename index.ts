@@ -5,10 +5,11 @@ import { logger } from './src/common/Logger';
 const server = new Server();
 
 server
-    .start()
-    .then((server: Server) => {
-        server.initRoutes();
-    })
-    .catch((err) => {
-        logger.error(err);
-    });
+  .start()
+  .then(async (server: Server) => {
+    server.initRoutes();
+    await server.initInfrastructure();
+  })
+  .catch((err) => {
+    logger.error(err);
+  });

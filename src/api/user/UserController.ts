@@ -13,7 +13,7 @@ class UserController extends BasicController<User, UserService, UserMap> {
   service: UserService;
 
   constructor() {
-    super(User, '/users', new UserService(), new UserMap());
+    super(User, '/users', new UserMap());
     this.applyRoutes();
   }
 

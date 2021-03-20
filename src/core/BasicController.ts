@@ -8,17 +8,16 @@ import { BasicEntity } from './BasicEntity';
 import { Inject } from 'typescript-ioc';
 import { NotFoundError } from './exception/NotFoundError';
 
-abstract class BasicController<T extends BasicEntity, K extends BasicService<any, T>, M extends Mapper<T>> {
+abstract class BasicController<T, K extends BasicService<any, T>, M extends Mapper<T>> {
   basePath: string;
   model: T;
   service: K;
   mapper: M;
   router: express.Router = express.Router();
 
-  constructor(model, path: string, @Inject service: K, @Inject mapper: M) {
+  constructor(model, path: string, @Inject mapper: M) {
     this.model = new model();
     this.basePath = path;
-    this.service = service;
     this.mapper = mapper;
   }
 
@@ -43,8 +42,8 @@ abstract class BasicController<T extends BasicEntity, K extends BasicService<any
   findById = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
       const model: T = await this.service.findById(req.params.id);
-      if(!model){
-        throw new NotFoundError("Document not found");
+      if (!model) {
+        throw new NotFoundError('Document not found');
       }
 
       res.json(this.mapper.toDTO(model));
@@ -79,7 +78,11 @@ abstract class BasicController<T extends BasicEntity, K extends BasicService<any
 
   delete = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
-      await this.service.delete(req.params.id);
+      const model = await this.service.findById(req.params.id);
+      if (!model) {
+        throw new NotFoundError('Document not found');
+      }
+      await this.service.delete(model);
       res.sendStatus(HTTP_STATUS.SUCCESS_NO_CONTEND);
       next();
     } catch (error) {

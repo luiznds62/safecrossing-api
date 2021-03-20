@@ -1,7 +1,7 @@
 import { BasicRepository } from './BasicRepository';
 import { BasicEntity } from './BasicEntity';
 import { BasicPage } from './BasicPage';
-export abstract class BasicService<R extends BasicRepository<T>, T extends BasicEntity> {
+export abstract class BasicService<R extends BasicRepository<T>, T> {
   repository: R;
 
   constructor(repository: R) {
@@ -32,7 +32,7 @@ export abstract class BasicService<R extends BasicRepository<T>, T extends Basic
     return this.repository.merge(id, model);
   }
 
-  delete(id): Promise<Number> {
-    return this.repository.delete(id);
+  delete(model): Promise<T> {
+    return this.repository.delete(model);
   }
 }

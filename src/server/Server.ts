@@ -7,6 +7,10 @@ import { errorHandler } from '../common/ErrorHandler';
 import { TokenParser } from '../security/TokenParser';
 import * as bodyParser from 'body-parser';
 import * as routes from '../api/router';
+import databaseConnection, { openConnection } from '../core/DatabaseConnection';
+import { InternalServerError } from '../core/exception/InternalServerError';
+import sequelize from '../core/DatabaseConnection';
+
 export default class Server extends EventEmitter {
   application: express.Application;
 
@@ -36,6 +40,17 @@ export default class Server extends EventEmitter {
     this.application.use(errorHandler);
 
     return this;
+  }
+
+  async initInfrastructure() {
+    openConnection()
+      .then(async () => {
+        //sequelize.sync({ force: true });
+        logger.info('Connection has been established successfully.');
+      })
+      .catch(err => {
+        logger.error('Unable to connect to the database:', err);
+      });
   }
 
   start() {
