@@ -30,7 +30,11 @@ jobs:
       #     pkg-manager: yarn
       - run:
           name: Run tests
-          command: set DATABASE_URL=$DATABASE_URL && set NODE_OPTIONS=$NODE_OPTIONS && npm test
+          command: |
+            touch .env
+            echo "DATABASE_URL=$DATABASE_URL" > .env
+            echo "NODE_OPTIONS=$NODE_OPTIONS" > .env
+            npm test
       - codecov/upload:
           file: './coverage/clover.xml'
           token: $CODECOV_TOKEN
