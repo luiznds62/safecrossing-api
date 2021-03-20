@@ -37,8 +37,6 @@ jobs:
       - run:
           name: Run tests
           command: set DATABASE_URL=$DATABASE_URL && npm test
-          environment:
-            DATABASE_URL: $DATABASE_URL
       - codecov/upload:
           file: './coverage/clover.xml'
           token: $CODECOV_TOKEN
