@@ -68,6 +68,10 @@ User.init({
   email: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: (<any>{
+      args: true,
+      msg: '[E-mail em uso]'
+    }),
     validate: {
       isEmail: {
         msg: '[E-mail inválido]'
@@ -81,9 +85,9 @@ User.init({
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      len: {
-        args: [5, 20],
-        msg: '[A senha deve possuir de 5 a 20 caractéres]'
+      min: {
+        args: [5],
+        msg: '[A senha deve possuir no mínimo 5 caractéres]'
       },
       notNull: {
         msg: '[A senha deve ser informada]'

@@ -92,31 +92,17 @@ describe('UserModel', () => {
     }
   });
 
-  test('Should not create User with password lower than 6', async () => {
+  test('Should not create User with password lower than 5', async () => {
     try {
       await User.build({
         id: CONSTS._id,
         name: CONSTS.name,
         email: CONSTS.email,
-        password: '12345'
+        password: '1234'
       }).validate();
     } catch (error) {
       expect(error).toBeDefined();
-      expect(error.message).toBe('Validation error: [A senha deve possuir de 5 a 20 caractéres]');
-    }
-  });
-
-  test('Should not create User with password bigger than 20', async () => {
-    try {
-      await User.build({
-        id: CONSTS._id,
-        name: CONSTS.name,
-        email: CONSTS.email,
-        password: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-      }).validate();
-    } catch (error) {
-      expect(error).toBeDefined();
-      expect(error.message).toBe('Validation error: [A senha deve possuir de 5 a 20 caractéres]');
+      expect(error.message).toBe('Validation error: [A senha deve possuir no mínimo 5 caractéres]');
     }
   });
 });
