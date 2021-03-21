@@ -414,7 +414,11 @@
       "properties": {
         "name": {
           "type": "string",
-          "example": "Semaphore X"
+          "example": "1595AS8F23"
+        },
+        "alias": {
+          "type": "string",
+          "example": "Semaphore X from Avenue Y"
         },
         "coordinates": {
           "type": "string",

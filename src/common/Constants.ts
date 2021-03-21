@@ -18,3 +18,7 @@ export enum TRAFFIC_LIGHT_STATUS {
   SAFE = 'SAFE',
   WAIT = 'WAIT'
 }
+
+export enum GOOGLE_MAPS_CONFIG {
+  LANGUAGE = 'pt-BR'
+}
