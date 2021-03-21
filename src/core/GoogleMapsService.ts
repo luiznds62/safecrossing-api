@@ -14,11 +14,15 @@ class GoogleMapsService {
     this.client = new Client();
   }
 
+  getDistanceFromResponse(string) {
+    return Number.parseFloat(string.split(" ")[0].replace(",","."));
+  }
+
   private buildMetadata(data) {
     const metadata: any = {};
     metadata.originAddress = data.origin_addresses[0];
     metadata.destinationAddress = data.destination_addresses[0];
-    metadata.distance = data.rows[0].elements[0].distance.text;
+    metadata.distance = this.getDistanceFromResponse(data.rows[0].elements[0].distance.text);
     metadata.duration = data.rows[0].elements[0].duration.text;
     return metadata;
   }

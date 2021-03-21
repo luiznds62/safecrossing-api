@@ -509,7 +509,7 @@
             },
             "distance": {
               "type": "string",
-              "example": "1,4 km"
+              "example": "1.4"
             },
             "duration": {
               "type": "string",
