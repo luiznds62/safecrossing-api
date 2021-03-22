@@ -3,8 +3,8 @@ export class FindNearbyError extends Error {
 
   constructor() {
     super('Ocorreu um erro ao buscar semáforos próximos, fique atento e mantenha os cuidados');
-    this.name = 'BadRequestError';
-    this.status = 400;
+    this.name = 'FindNearbyError';
+    this.status = 500;
     Object.setPrototypeOf(this, FindNearbyError.prototype);
   }
 }
