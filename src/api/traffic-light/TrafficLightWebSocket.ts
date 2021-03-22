@@ -5,9 +5,9 @@ import { TrafficLightService } from '../../domain/traffic-light/TrafficLightServ
 import { Inject } from 'typescript-ioc';
 import { ForbiddenError } from '../../core/exception/ForbiddenError';
 import { NotAuthorizedError } from '../../core/exception/NotAuthorizedError';
+import { RateLimiterMemory } from 'rate-limiter-flexible';
 import environment from '../../common/Environments';
 import jwt from 'jsonwebtoken';
-import { RateLimiterMemory } from 'rate-limiter-flexible';
 
 class TrafficLightWebSocket {
   io;
