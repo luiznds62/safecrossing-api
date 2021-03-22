@@ -4,11 +4,14 @@
   "description": "API for integration with IoT device who transfer traffic light status for attempt to help blind people to travel in a more safe way",
   "main": "index.js",
   "scripts": {
+    "start": "pm2-runtime start ecosystem.config.js --env production",
     "start:dev": "ts-node-dev --respawn index.ts",
     "start:queue:dev": "ts-node-dev --respawn queue.ts",
     "swagger:autogen": "ts-node-dev swagger.ts",
     "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "build": "tsc",
+    "postinstall": "npm run build"
   },
   "author": "luiznds",
   "license": "ISC",
@@ -28,6 +31,7 @@
     "nodemailer": "6.4.18",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
+    "pm2": "^4.5.5",
     "rate-limiter-flexible": "^2.2.1",
     "reflect-metadata": "0.1.13",
     "sequelize": "^6.5.1",
