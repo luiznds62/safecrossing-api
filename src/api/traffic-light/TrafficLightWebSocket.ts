@@ -3,6 +3,10 @@ import { logger } from '../../common/Logger';
 import { TRAFFIC_LIGHT_WS } from '../../common/Constants';
 import { TrafficLightService } from '../../domain/traffic-light/TrafficLightService';
 import { Inject } from 'typescript-ioc';
+import { ForbiddenError } from '../../core/exception/ForbiddenError';
+import { NotAuthorizedError } from '../../core/exception/NotAuthorizedError';
+import environment from '../../common/Environments';
+import jwt from 'jsonwebtoken';
 
 class TrafficLightWebSocket {
   io;
@@ -12,6 +16,21 @@ class TrafficLightWebSocket {
 
   constructor(private httpServer) {
     this.io = new Server(httpServer);
+
+    this.io.use((socket, next) => {
+      const token = socket.handshake.auth.token;
+      if (token) {
+        jwt.verify(token, environment.SECURITY.API_SECRET, (error, decoded) => {
+          if (decoded) {
+            next();
+          } else {
+            next(new NotAuthorizedError('Invalid credentials'));
+          }
+        });
+      } else {
+        next(new ForbiddenError('Access denied'));
+      }
+    });
 
     this.io.on('connection', socket => {
       socket.on(TRAFFIC_LIGHT_WS.CHANGED_STATUS, async (payload) => {
