@@ -5,6 +5,7 @@ import sequelize from '../../core/DatabaseConnection';
 class TrafficLight extends Sequelize.Model {
   private id: number;
   private name: string;
+  private alias: string;
   private coordinates: string;
   private lastStatus: string;
 
@@ -27,6 +28,14 @@ class TrafficLight extends Sequelize.Model {
   setName(name) {
     this.name = name;
   };
+
+  getAlias() {
+    return this.alias;
+  }
+
+  setAlias(alias) {
+    this.alias = alias;
+  }
 
   getCoordinates() {
     return this.coordinates;
@@ -54,6 +63,10 @@ TrafficLight.init({
         msg: '[O nome deve ser informado]'
       }
     }
+  },
+  alias: {
+    type: Sequelize.STRING,
+    allowNull: true
   },
   coordinates: {
     type: Sequelize.STRING,

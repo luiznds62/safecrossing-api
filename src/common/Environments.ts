@@ -29,5 +29,8 @@ export default {
         HOST: process.env.REDIS_HOST,
         PORT: parseInt(process.env.REDIS_PORT),
         PASSWORD: process.env.REDIS_PASSWORD
+    },
+    GOOGLE_MAPS: {
+        API_KEY: process.env.GOOGLE_MAPS_API_KEY
     }
 };

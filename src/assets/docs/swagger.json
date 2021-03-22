@@ -8,7 +8,10 @@
   "host": "localhost:3000",
   "basePath": "/",
   "tags": [],
-  "schemes": ["http", "https"],
+  "schemes": [
+    "http",
+    "https"
+  ],
   "securityDefinitions": {
     "apiKeyAuth": {
       "type": "apiKey",
@@ -17,12 +20,18 @@
       "description": "No need for this yet"
     }
   },
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/auth": {
       "post": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Authorize an User in the API",
         "parameters": [
           {
@@ -49,7 +58,9 @@
     },
     "/users": {
       "get": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Get all Users in system",
         "parameters": [
           {
@@ -84,7 +95,9 @@
         }
       },
       "post": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Create a new user in system",
         "parameters": [
           {
@@ -111,7 +124,9 @@
     },
     "/users/{id}": {
       "get": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Get user with given ID",
         "parameters": [
           {
@@ -138,7 +153,9 @@
       },
       "put": {
         "summary": "Update user with given ID",
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -175,7 +192,9 @@
       },
       "delete": {
         "summary": "Delete user with given ID",
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -202,7 +221,9 @@
     },
     "/traffic-lights": {
       "get": {
-        "tags": ["TrafficLights"],
+        "tags": [
+          "TrafficLights"
+        ],
         "summary": "Get all Traffic Lights in system",
         "parameters": [
           {
@@ -237,7 +258,9 @@
         }
       },
       "post": {
-        "tags": ["TrafficLights"],
+        "tags": [
+          "TrafficLights"
+        ],
         "summary": "Create a new Traffic Light in system",
         "parameters": [
           {
@@ -264,7 +287,9 @@
     },
     "/traffic-lights/{id}": {
       "get": {
-        "tags": ["TrafficLights"],
+        "tags": [
+          "TrafficLights"
+        ],
         "summary": "Get traffic light with given ID",
         "parameters": [
           {
@@ -291,7 +316,9 @@
       },
       "put": {
         "summary": "Update traffic light with given ID",
-        "tags": ["TrafficLights"],
+        "tags": [
+          "TrafficLights"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -328,7 +355,9 @@
       },
       "delete": {
         "summary": "Delete traffic light with given ID",
-        "tags": ["TrafficLights"],
+        "tags": [
+          "TrafficLights"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -349,6 +378,36 @@
           },
           "404": {
             "description": "Document not found"
+          }
+        }
+      }
+    },
+    "/traffic-lights/nearby/{coordinate}": {
+      "get": {
+        "summary": "Find the most nearby traffic light by a given coordinate",
+        "tags": [
+          "TrafficLights"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "coordinate",
+            "required": true,
+            "description": "Coordinate to search",
+            "schema": {
+              "$ref": "#/definitions/coordinate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NearbyTrafficLight"
+            }
+          },
+          "400": {
+            "description": "Ocorreu um erro ao buscar semáforos próximos, fique atento e mantenha os cuidados"
           }
         }
       }
@@ -414,7 +473,11 @@
       "properties": {
         "name": {
           "type": "string",
-          "example": "Semaphore X"
+          "example": "1595AS8F23"
+        },
+        "alias": {
+          "type": "string",
+          "example": "Semaphore X from Avenue Y"
         },
         "coordinates": {
           "type": "string",
@@ -423,6 +486,36 @@
         "lastStatus": {
           "type": "string",
           "example": "SAFE"
+        }
+      }
+    },
+    "NearbyTrafficLight": {
+      "type": "object",
+      "properties": {
+        "trafficLight": {
+          "type": "object",
+          "$ref": "#/definitions/TrafficLight"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "originAddress": {
+              "type": "string",
+              "example": "R. Aíres Figueira, 807 - Barracão, Içara - SC, 88820-000, Brasil"
+            },
+            "destinationAddress": {
+              "type": "string",
+              "example": "R. Aíres Figueira, 807 - Barracão, Içara - SC, 88820-000, Brasil"
+            },
+            "distance": {
+              "type": "string",
+              "example": "1.4"
+            },
+            "duration": {
+              "type": "string",
+              "example": "17 minutos"
+            }
+          }
         }
       }
     },
@@ -440,7 +533,7 @@
     "TrafficLights": {
       "type": "object",
       "properties": {
-        "users": {
+        "trafficLights": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/TrafficLight"
