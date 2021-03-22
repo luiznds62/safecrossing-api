@@ -7,6 +7,7 @@ import { ForbiddenError } from '../../core/exception/ForbiddenError';
 import { NotAuthorizedError } from '../../core/exception/NotAuthorizedError';
 import environment from '../../common/Environments';
 import jwt from 'jsonwebtoken';
+import { RateLimiterMemory } from 'rate-limiter-flexible';
 
 class TrafficLightWebSocket {
   io;
@@ -17,18 +18,29 @@ class TrafficLightWebSocket {
   constructor(private httpServer) {
     this.io = new Server(httpServer);
 
-    this.io.use((socket, next) => {
-      const token = socket.handshake.auth.token;
-      if (token) {
-        jwt.verify(token, environment.SECURITY.API_SECRET, (error, decoded) => {
-          if (decoded) {
-            next();
-          } else {
-            next(new NotAuthorizedError('Invalid credentials'));
-          }
-        });
-      } else {
-        next(new ForbiddenError('Access denied'));
+    const rateLimiter = new RateLimiterMemory(
+      {
+        points: 5,
+        duration: 1
+      });
+
+    this.io.use(async (socket, next) => {
+      try {
+        await rateLimiter.consume(socket.handshake.address);
+        const token = socket.handshake.auth.token;
+        if (token) {
+          jwt.verify(token, environment.SECURITY.API_SECRET, (error, decoded) => {
+            if (decoded) {
+              next();
+            } else {
+              next(new NotAuthorizedError('Invalid credentials'));
+            }
+          });
+        } else {
+          next(new ForbiddenError('Access denied'));
+        }
+      } catch (e) {
+        socket.emit('blocked', { 'retry-ms': e.msBeforeNext });
       }
     });
 
