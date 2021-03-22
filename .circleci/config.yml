@@ -19,7 +19,7 @@ jobs:
       - node/install-packages
       - run:
           name: Run tests
-          command: set DATABASE_URL=$DATABASE_URL && set NODE_OPTIONS=$NODE_OPTIONS && npm test
+          command: set DATABASE_URL=$DATABASE_URL && set NODE_OPTIONS=$NODE_OPTIONS && npm test --maxWorkers=2
       - codecov/upload:
           file: './coverage/clover.xml'
           token: $CODECOV_TOKEN
