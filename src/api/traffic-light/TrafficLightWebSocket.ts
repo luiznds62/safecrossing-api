@@ -20,6 +20,12 @@ class TrafficLightWebSocket {
         await this.trafficLightService.changeLastStatus(payload.trafficLightId, newStatus);
         const after = await this.trafficLightService.findById(payload.trafficLightId);
         logger.info(`${before.getAlias()} changed status [${before.getLastStatus()}] to [${after.getLastStatus()}]`);
+
+        socket.emit(TRAFFIC_LIGHT_WS.BROADCAST_STATUS, {
+          before: before,
+          after: after,
+          newStatus: newStatus
+        });
       });
     });
   }
