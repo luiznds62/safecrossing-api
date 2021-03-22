@@ -7,6 +7,7 @@ import { errorHandler } from '../common/ErrorHandler';
 import { TokenParser } from '../security/TokenParser';
 import * as bodyParser from 'body-parser';
 import * as routes from '../api/router';
+import cors from 'cors';
 import { openConnection } from '../core/DatabaseConnection';
 import { TrafficLightWebSocket } from '../api/traffic-light/TrafficLightWebSocket';
 import { createServer } from 'http';
@@ -62,9 +63,10 @@ export default class Server extends EventEmitter {
         this.application.use(bodyParser.urlencoded({ extended: true }));
         this.application.use(bodyParser.json());
         this.application.use(methodOverride());
+        this.application.use(cors());
         const server = createServer(this.application);
         this.initWS(server);
-        server.listen(environment.SERVER.PORT)
+        server.listen(environment.SERVER.PORT);
         this.emit('listening');
         resolve(this);
       } catch (error) {
