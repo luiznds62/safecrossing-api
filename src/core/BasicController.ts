@@ -4,7 +4,6 @@ import { BasicService } from './BasicService';
 import { Mapper } from './Mapper';
 import { HTTP_STATUS } from '../common/Constants';
 import { IPaginatedRequest, paginationMiddleware } from './middleware/PaginationMiddleware';
-import { BasicEntity } from './BasicEntity';
 import { Inject } from 'typescript-ioc';
 import { NotFoundError } from './exception/NotFoundError';
 
