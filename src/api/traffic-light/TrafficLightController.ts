@@ -37,7 +37,7 @@ class TrafficLightController extends BasicController<TrafficLight, TrafficLightS
       resp.json(await this.googleMapsService.getTrafficLightsByCoordinate(req.params.coordinate));
       next();
     } catch (e) {
-      throw new FindNearbyError();
+      next(new FindNearbyError());
     }
   };
 }
