@@ -7,9 +7,7 @@ import { TrafficLight } from '../../domain/traffic-light/TrafficLight';
 import { TrafficLightMap } from './TrafficLightDto';
 import { GoogleMapsService } from '../../core/GoogleMapsService';
 import { FindNearbyError } from '../../core/exception/FindNearbyError';
-import io from 'socket.io';
 import express from 'express';
-import { TrafficLightWebSocket } from './TrafficLightWebSocket';
 
 class TrafficLightController extends BasicController<TrafficLight, TrafficLightService, TrafficLightMap> {
   @Inject
