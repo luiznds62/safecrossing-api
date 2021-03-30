@@ -6,13 +6,14 @@ import { HTTP_STATUS } from '../common/Constants';
 import { IPaginatedRequest, paginationMiddleware } from './middleware/PaginationMiddleware';
 import { Inject } from 'typescript-ioc';
 import { NotFoundError } from './exception/NotFoundError';
+import expressWs from 'express-ws';
 
 abstract class BasicController<T, K extends BasicService<any, T>, M extends Mapper<T>> {
   basePath: string;
   model: T;
   service: K;
   mapper: M;
-  router: express.Router = express.Router();
+  router = express.Router() as expressWs.Router;
 
   constructor(model, path: string, @Inject mapper: M) {
     this.model = new model();
